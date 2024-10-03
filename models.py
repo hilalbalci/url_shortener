@@ -8,7 +8,7 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     api_key = db.Column(db.String, unique=True)
-    daily_limit = db.Column(db.Integer, default=50)
+    daily_limit = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 

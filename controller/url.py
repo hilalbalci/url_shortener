@@ -1,5 +1,7 @@
 from flask import Blueprint, abort, jsonify, redirect, request
+from marshmallow import ValidationError
 
+from schemas import UrlSchema
 from service.url import UrlService
 from utils import login_required
 
@@ -9,9 +11,13 @@ url_blueprint = Blueprint("url", __name__)
 @url_blueprint.route("/shorten_url", methods=["POST"])
 @login_required
 def shorten_url():
-    url = request.json.get("url")
+    url_schema = UrlSchema()
+    try:
+        data = url_schema.load(request.json)
+    except ValidationError as err:
+        return jsonify({"errors": err.messages}), 400
     url_service = UrlService()
-    short_url = url_service.shorten_url(account=request.account, url=url)
+    short_url = url_service.shorten_url(account=request.account, url=data.get("url"))
     return jsonify({"short_url": short_url.shortened_url}), 201
 
 
