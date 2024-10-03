@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from db import db
+from configurations import db
 
 
 class Account(db.Model):

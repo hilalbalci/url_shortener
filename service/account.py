@@ -1,7 +1,7 @@
 import random
 import string
 
-from db import db
+from configurations import db
 from models import Account
 
 

@@ -6,7 +6,7 @@ import validators
 from flask import abort
 from sqlalchemy import func
 
-from db import db
+from configurations import db
 from models import ShortenedUrl
 
 
@@ -25,17 +25,17 @@ class UrlService:
                 description="You have exceeded your daily limit of shortening urls.",
             )
 
-        shortened_url = ShortenedUrl.query.filter_by(
+        shortened_url_obj = ShortenedUrl.query.filter_by(
             url=url, account_id=account.id
         ).first()
-        if not shortened_url:
+        if not shortened_url_obj:
             short_url = UrlService.create_short_url()
-            shortened_url = ShortenedUrl(
+            shortened_url_obj = ShortenedUrl(
                 shortened_url=short_url, url=url, account_id=account.id
             )
-            db.session.add(shortened_url)
+            db.session.add(shortened_url_obj)
             db.session.commit()
-        return shortened_url
+        return shortened_url_obj.shortened_url
 
     @staticmethod
     def create_short_url():
@@ -46,11 +46,11 @@ class UrlService:
         if not validators.url(url):
             abort(400, description="Url is not valid")
 
-    def get_original_url(self, short_url):
+    def get_url_obj_by_short_url(self, short_url):
         return ShortenedUrl.query.filter_by(shortened_url=short_url).first()
 
-    def click(self, url_obj):
-        url = ShortenedUrl.query.get(url_obj.id)
+    def click(self, short_url):
+        url = self.get_url_obj_by_short_url(short_url)
         url.click_count += 1
         db.session.add(url)
         db.session.commit()

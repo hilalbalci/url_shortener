@@ -2,9 +2,9 @@ import logging
 
 from flask import Flask
 
+from configurations import db
 from controller.account import account_blueprint
 from controller.url import url_blueprint
-from db import db
 
 app = Flask(__name__)
 
