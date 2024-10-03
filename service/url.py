@@ -54,3 +54,8 @@ class UrlService:
         url.click_count += 1
         db.session.add(url)
         db.session.commit()
+
+    def get_analytics(self, account):
+        shortened_urls = ShortenedUrl.query.filter_by(account_id=account.id).all()
+        return [url.to_dict() for url in shortened_urls]
+

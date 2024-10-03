@@ -41,3 +41,11 @@ def redirect_url(short_url):
     url_service.click(short_url)
     redis_client.set(short_url, url_obj.url)
     return redirect(url_obj.url)
+
+
+@url_blueprint.route("/analytics", methods=["GET"])
+@login_required
+def analytics():
+    url_service = UrlService()
+    analytics_data = url_service.get_analytics(request.account)
+    return jsonify(analytics_data), 200
