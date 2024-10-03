@@ -2,6 +2,12 @@
 
 This project provides a RESTful API to shorten long URLs and redirect users to the original URL when the shortened version is accessed. It includes features such as account management, rate limiting (daily URL shortening limit), Redis caching, and analytics tracking.
 
+# Technologies Used
+- **Framework**: Flask
+- **Testing**: PyTest
+- **Caching**: Redis
+- **Database**: SQlite
+
 ## Purpose
 
 The primary goal of this project is to create a URL shortening service where users can:
