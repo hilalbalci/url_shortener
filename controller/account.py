@@ -37,9 +37,10 @@ def update_account(account_id):
     except ValidationError as err:
         return jsonify({"errors": err.messages}), 400
     daily_limit = data.get("daily_limit")
+    name = data.get("name")
     account_service = AccountService()
     account = account_service.update_account(
-        account_id=account_id, daily_limit=daily_limit
+        account_id=account_id, daily_limit=daily_limit, name=name
     )
     if account:
         return jsonify(

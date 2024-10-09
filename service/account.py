@@ -17,10 +17,11 @@ class AccountService:
         db.session.commit()
         return account
 
-    def update_account(self, account_id, daily_limit):
+    def update_account(self, account_id, daily_limit, name):
         account = self.get_account_by_id(account_id)
         if account:
             account.daily_limit = daily_limit
+            account.name = name
             db.session.add(account)
             db.session.commit()
         return account
