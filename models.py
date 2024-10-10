@@ -11,6 +11,14 @@ class Account(db.Model):
     daily_limit = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'api_key': self.api_key,
+            'created_at': self.created_at.isoformat(),
+            'daily_limit': self.daily_limit
+        }
+
 
 class ShortenedUrl(db.Model):
     __tablename__ = "shortened_urls"

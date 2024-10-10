@@ -31,3 +31,7 @@ class AccountService:
 
     def get_account_by_id(self, account_id):
         return Account.query.get(account_id)
+
+    def get_all_accounts(self):
+        accounts = Account.query.all()
+        return [acc.to_dict() for acc in accounts]

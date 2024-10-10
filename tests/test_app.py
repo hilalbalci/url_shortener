@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import pytest
 from flask import json
 
@@ -42,7 +40,6 @@ def clear_redis():
     redis_client.flushdb()
 
 
-@patch("utils.login_required", lambda x: x)
 def test_shorten_url(client, clear_redis):
     payload = {"url": "https://www.google.com"}
     headers = {"API_KEY": "test_api_key"}

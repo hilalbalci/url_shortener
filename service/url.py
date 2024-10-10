@@ -29,7 +29,7 @@ class UrlService:
             url=url, account_id=account.id
         ).first()
         if not shortened_url_obj:
-            short_url = UrlService.create_short_url()
+            short_url = self.create_short_url()
             shortened_url_obj = ShortenedUrl(
                 shortened_url=short_url, url=url, account_id=account.id
             )
@@ -46,7 +46,8 @@ class UrlService:
         if not validators.url(url):
             abort(400, description="Url is not valid")
 
-    def get_url_obj_by_short_url(self, short_url):
+    @staticmethod
+    def get_url_obj_by_short_url(short_url):
         return ShortenedUrl.query.filter_by(shortened_url=short_url).first()
 
     def click(self, short_url):
@@ -55,7 +56,8 @@ class UrlService:
         db.session.add(url)
         db.session.commit()
 
-    def get_analytics(self, account):
+    @staticmethod
+    def get_analytics(account):
         shortened_urls = ShortenedUrl.query.filter_by(account_id=account.id).all()
         return [url.to_dict() for url in shortened_urls]
 

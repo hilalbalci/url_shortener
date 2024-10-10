@@ -68,3 +68,10 @@ def get_account(account_id):
             }
         ), 200
     abort(404, description="Account was not found.")
+
+
+@account_blueprint.route("/accounts", methods=["GET"])
+def get_accounts():
+    account_service = AccountService()
+    accounts = account_service.get_all_accounts()
+    return jsonify(accounts), 200
